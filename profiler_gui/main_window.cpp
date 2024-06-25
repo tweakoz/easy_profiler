@@ -132,7 +132,7 @@ const int LOADER_TIMER_INTERVAL = 40;
 static const QStringList& UI_themes()
 {
     static const QStringList themes {
-        "default"
+        "Fusion"
     };
 
     return themes;
@@ -341,7 +341,7 @@ MainWindow::MainWindow() : Parent(), m_theme("default"), m_lastAddress("localhos
     setStatusBar(nullptr);
 
     loadSettings();
-    loadTheme(m_theme);
+    //loadTheme(m_theme);
     configureSizes();
     resize(px(800), px(600));
 

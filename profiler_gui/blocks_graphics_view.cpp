@@ -1322,14 +1322,24 @@ void BlocksGraphicsView::wheelEvent(QWheelEvent* _event)
 
     m_idleTime = 0;
 
-    if (!m_bEmpty)
-        onWheel(mapToDiagram(mapToScene(_event->pos()).x()), _event->delta());
+    if (!m_bEmpty){
+        static int counter = 0;
+        counter++;
+        if((counter&0xf)==0){
+            int delta = _event->delta();
+            if(delta!=0){
+                printf( "delta<%d>\n", delta );
+                onWheel(mapToDiagram(mapToScene(_event->pos()).x()), delta);
+            }
+        }
+    }
 
     _event->accept();
 }
 
 void BlocksGraphicsView::onGraphicsScrollbarWheel(qreal _scenePos, int _wheelDelta)
 {
+    return;
     m_idleTime = 0;
 
     for (auto item : m_items)
@@ -1341,7 +1351,7 @@ void BlocksGraphicsView::onGraphicsScrollbarWheel(qreal _scenePos, int _wheelDel
         }
     }
 
-    onWheel(_scenePos, _wheelDelta);
+    onWheel(_scenePos, _wheelDelta>>4);
 }
 
 void BlocksGraphicsView::scrollTo(const GraphicsBlockItem* _item)
